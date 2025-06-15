@@ -17,52 +17,51 @@
 - Do **not** modify the test during implementation; only adjust the implementation
 - Repeat the process until all tests pass
 
+### Functional Domain Modeling
+
+- Use function. Do **not** use class.
+- Design types using Algebraic Data Types
+
+### Do not throw exceptions internally
+
+- Use neverthrow to return Result<T, E>
+- Wrap external throws using fromThrowable and fromAsyncThrowable from neverthrow
+- Prefer TypeScript language features over neverthrow methods (isOk(), isErr() instead of match(), andThen())
+
+### Use early return pattern to improve readability
+
+- Avoid deep nesting with else statements
+- Handle error cases first with early return
+
 ## Workflow
 
-### Workflow A: Explore, Plan, Code, Commit
+**IMPORTANT**: run these steps in order.
 
-- **Step 1: Explore**
-  - Ask Claude to read relevant files, images, or URLs
-  - Use explicit file references or general pointers
-  - Consider using subagents for complex problems to verify details
-- **Step 2: Plan**
-  - Use "think" modes to trigger extended thinking
-    - "think" < "think hard" < "think harder" < "ultrathink"
-  - Create a document or GitHub issue to document the plan
-  - Allows resetting to planning stage if implementation differs
-- **Step 3: Code**
-  - Implement solution based on plan
-  - Verify reasonableness of solution during implementation
-- **Step 4: Commit**
-  - Commit the result
-  - Create pull request
-  - Update READMEs or changelogs if relevant
+1. **Explore**
+   1. **Status check** — `git status && TodoRead`
+   2. **Read docs** — open needed files under `@docs/` and project root `CLAUDE.md`
+2. **Plan & research** — make a strategy after reading the spec. **MUST** do this before writing code.
+   - **Spec analysis** — pull out requirements and limits from docs
+   - **Tech choice** — pick methods, patterns, libraries
+   - **Research** — check similar solutions and best practices
+   - **Existing code review** — find affected areas and impact
+   - **Implementation steps** — decide the order of work
+   - **Risk check** — list possible problems and fixes
+3. **Taks breakdown** — set detailed tasks
+   - Break down tasks into a step-by-step process using the Chain-of-Thought approach.
+   - Include verification criteria for each step to ensure accuracy and completeness
+4. **TDD build** — **MUST** write tests → code → refactor (Red → Green → Refactor)
+5. **Update Docs** — update needed files under `@docs/` and project root `CLAUDE.md`
+6. **Stage** — `git add .` (wait for separate commit command)
 
-**Note:** Steps 1-2 are crucial for improving solution quality, preventing premature coding
+**Note:**
 
----
+- Steps 1-2 are crucial for improving solution quality, preventing premature coding
+- Proceed to the next step only after meeting the completion criteria of the current step.
+- If an error occurs, go back to the previous step and re-execute it.
 
-### Workflow B: Commit
+## Tool Usage Guidelines
 
-When you receive the single keyword **“commit”**, follow these steps:
-
-1. **Determine the current branch**
-   - If it is `dev`, ask the user whether to:
-     - commit directly to `dev`, or
-     - create a new working branch.
-   - If a new branch is chosen, generate a clear branch name, create it, and execute all remaining actions on that branch.
-2. **Stage, split, and commit changes**
-   - Break the diff into logical pieces and commit each chunk with a precise, complete message.
-   - If a changed file is not in `.gitignore` and looks unnecessary, confirm with the user before committing.
-   - Always exclude the following from commits (do **not** add them to `.gitignore`):
-     - Firestore emulator import files (e.g., `fs_export/*`)
-     - `package-lock.json`
-
----
-
-## 使用ガイドライン
-
-- **問題の性質に応じてワークフローを選択**
-- **各ステップの完了条件を満たしてから次へ進む**
-- **エラー時は前のステップに戻って再実行**
-- **思考の深さ調整：** think < think hard < think harder < ultrathink
+- For maximum efficiency, whenever you need to perform multiple independent operations, invoke all relevant tools simultaneously rather than sequentially.
+- After receiving tool results, carefully reflect on their quality and determine optimal next steps before proceeding. Use your thinking to plan and iterate based on this new information, and then take the best next action.
+- Call the web search tool when: user asks about current events, factual information after January 2025, or any query requiring real-time data. Be proactive in identifying when searches would enhance your response.
