@@ -4,206 +4,59 @@
 
 - Always response in Japanese
 
-## ワークフロー A: Explore → Plan → Code → Commit
+## Development Policy
 
-### Step 1: Explore
+### Test-Driven Development (TDD)
 
-関連ファイル、画像、URL を読み込んで分析して。まだコードは書かないで。
+- Follow a test-driven development (TDD) approach by default
+- Begin by writing tests based on expected input and output
+- Do **not** write any implementation code at this stage—only the tests
+- Run the tests and confirm that they fail
+- Once test failure is confirmed and the test logic is validated, commit the test code
+- Proceed to implement code that will make the test pass
+- Do **not** modify the test during implementation; only adjust the implementation
+- Repeat the process until all tests pass
 
-**実行内容：**
+## Workflow
 
-- 明示的なファイル参照または一般的な指示を使用
-- 複雑な問題の場合はサブエージェントで詳細を検証
+### Workflow A: Explore, Plan, Code, Commit
 
-**完了条件：** 問題の全体像と要件を理解できた
+- **Step 1: Explore**
+  - Ask Claude to read relevant files, images, or URLs
+  - Use explicit file references or general pointers
+  - Consider using subagents for complex problems to verify details
+- **Step 2: Plan**
+  - Use "think" modes to trigger extended thinking
+    - "think" < "think hard" < "think harder" < "ultrathink"
+  - Create a document or GitHub issue to document the plan
+  - Allows resetting to planning stage if implementation differs
+- **Step 3: Code**
+  - Implement solution based on plan
+  - Verify reasonableness of solution during implementation
+- **Step 4: Commit**
+  - Commit the result
+  - Create pull request
+  - Update READMEs or changelogs if relevant
 
-### Step 2: Plan
-
-"think harder"モードで具体的なアプローチ計画を立てて。
-
-**実行内容：**
-
-- 思考モード選択："think" < "think hard" < "think harder" < "ultrathink"
-- 計画をドキュメントまたは GitHub Issue に記録
-- 実装が計画と異なる場合の計画段階への復帰を可能にする
-
-**計画に含める項目：**
-
-- 実装すべき機能の優先順位
-- 使用する技術・ライブラリ
-- ファイル構成
-- 実装手順
-
-**完了条件：** 詳細で実行可能な計画が作成された
-
-### Step 3: Code
-
-計画に基づいて解決策を実装して。
-
-**実行内容：**
-
-- Step 2 で作成した計画に従い、ワークフロー B で作業を進めて
-- 実装中に解決策の妥当性を検証
-- 必要に応じてサブエージェントで確認
-
-**完了条件：** 計画通りに動作するコードが完成した
-
-### Step 4: Commit
-
-結果をコミットして PR を作成して。
-
-**実行内容：**
-
-- 適切なコミットメッセージでコミット
-- プルリクエストを作成
-- 関連する場合は README や changelog を更新
-
-**完了条件：** 変更が適切にバージョン管理された
-
-**重要：Step 1-2 は解決策の品質向上に不可欠。早期のコーディングを防ぐ。**
+**Note:** Steps 1-2 are crucial for improving solution quality, preventing premature coding
 
 ---
 
-## ワークフロー B: テスト作成 → コミット → コード → 反復 → コミット
+### Workflow B: Commit
 
-### Step 1: テスト作成
+When you receive the single keyword **“commit”**, follow these steps:
 
-TDD アプローチでテストファーストで進める。
-
-**実行内容：**
-
-- 期待する入出力に基づいてテストを生成
-- TDD と明示し、未実装部分でモック生成を避ける
-
-**完了条件：** 期待動作を検証するテストが作成された
-
-### Step 2: テスト実行・コミット
-
-テストを実行して失敗確認後、コミットして。
-
-**実行内容：**
-
-- テスト実行し失敗を確認
-- 実装はまだ書かない
-- テストをコミット
-
-**完了条件：** 失敗するテストがコミットされた
-
-### Step 3: コード実装
-
-テストを通すコードを書いて。
-
-**実行内容：**
-
-- テストを通すための最小限のコードを実装
-- テスト変更は禁止
-- 数回の反復でテスト合格を目指す
-
-**完了条件：** すべてのテストが通過した
-
-### Step 4: 検証・コミット
-
-実装の妥当性を確認してコミットして。
-
-**実行内容：**
-
-- 実装がテストに過適合していないかサブエージェント検証
-- 問題なければコードをコミット
-
-**完了条件：** 適切に検証されたコードがコミットされた
-
----
-
-## ワークフロー C: コード → スクリーンショット → 反復
-
-### Step 1: 環境準備
-
-ブラウザスクリーンショット手段を用意して。
-
-**実行内容：**
-
-- Puppeteer MCP などのスクリーンショット機能を準備
-
-**完了条件：** スクリーンショット撮影環境が整った
-
-### Step 2: 初期実装
-
-デザインモックに合わせて初期実装して。
-
-**実行内容：**
-
-- 提供されたデザインモック画像を参照
-- モックに合わせた初期実装
-
-**完了条件：** 基本的な実装が完了した
-
-### Step 3: 反復改善
-
-スクショ撮影 → 比較 → 修正を反復して。
-
-**実行内容：**
-
-- 実装後にスクリーンショットを撮影
-- モックと比較して差異を特定
-- 差異があれば修正して再度スクリーンショット
-- モックに十分近づくまで反復
-
-**完了条件：** デザインモックとの差異が許容範囲内
-
-### Step 4: 最終コミット
-
-満足できるレベルに達したらコミットして。
-
-**実行内容：**
-
-- 最終的な実装をコミット
-
-**完了条件：** UI 実装が完了してコミットされた
-
----
-
-## ワークフロー D: コミット
-
-### 「コミット」と指定された場合の処理
-
-現在のブランチ状況を確認してコミット処理を実行して。
-
-#### Step 1: ブランチ確認
-
-- **現在が dev ブランチの場合：**
-  - そのままコミットするか作業用ブランチを作成するかユーザーに問い合わせ
-  - 新しいブランチ選択時：適切なブランチ名で作成し、以降の作業はそのブランチで実行
-
-#### Step 2: 差分確認・分割
-
-- 現在の差分を適切に分割
-- .gitignore に記載されていないが不要と思われるファイルが変更されている場合はユーザーに確認
-
-#### Step 3: コミット実行
-
-- 各差分に過不足なくメッセージを付けてコミット
-- **除外対象：** fs_export 等の firestore emulator の import ファイル、package-lock.json（.gitignore に記述せず、コミットから除外）
-
-**完了条件：** すべての変更が適切にコミットされた
-
----
-
-## ワークフロー E: 作業開始
-
-### 「作業開始」と指定された場合の処理
-
-作業環境を最新状態に準備して開始状況を確認して。
-
-#### Step 1: ブランチ更新
-
-- ローカルのブランチを全て最新にする
-
-#### Step 2: 現在状況の提示
-
-- 現在のブランチをユーザーに提示
-- dev ブランチの場合は注意を促す
-
-**完了条件：** 作業環境が最新状態で現在状況が明確になった
+1. **Determine the current branch**
+   - If it is `dev`, ask the user whether to:
+     - commit directly to `dev`, or
+     - create a new working branch.
+   - If a new branch is chosen, generate a clear branch name, create it, and execute all remaining actions on that branch.
+2. **Stage, split, and commit changes**
+   - Break the diff into logical pieces and commit each chunk with a precise, complete message.
+   - If a changed file is not in `.gitignore` and looks unnecessary, confirm with the user before committing.
+   - Always exclude the following from commits (do **not** add them to `.gitignore`):
+     - Firestore emulator import files (e.g., `fs_export/*`)
+     - `package-lock.json`
 
 ---
 
@@ -213,4 +66,3 @@ TDD アプローチでテストファーストで進める。
 - **各ステップの完了条件を満たしてから次へ進む**
 - **エラー時は前のステップに戻って再実行**
 - **思考の深さ調整：** think < think hard < think harder < ultrathink
-- **単発コマンド：** 「コミット」「作業開始」は即座に対応するワークフローを実行
