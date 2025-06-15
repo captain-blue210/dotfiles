@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(claude --version)",
+      "Bash(npm update:*)",
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "Bash(gh issue create:*)",
+      "Bash(flutter:*)",
+      "Bash(./flutter/bin/flutter create --org com.poppinghabits --project-name popping_habits .)",
+      "Bash(mkdir:*)",
+      "Bash(dart run build_runner build:*)",
+      "Bash(git checkout:*)",
+      "Bash(xcrun simctl list:*)",
+      "Bash(sudo gem install:*)",
+      "Bash(gem install:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(pod install:*)",
+      "Bash(open:*)",
+      "Bash(gh issue list:*)",
+      "Bash(grep:*)",
+      "Bash(npx create-expo-app:*)",
+      "Bash(npm install:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx expo start:*)",
+      "Bash(kill:*)"
+    ],
+    "deny": []
+  },
+  "enableAllProjectMcpServers": false
+}

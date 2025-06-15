@@ -1,0 +1,17 @@
+#view
+set -g theme_display_date yes
+set -g theme_date_format "+%F %H:%M"
+set -g theme_display_git_default_branch yes
+
+#path setting
+set -x PATH $PATH:$HOME/.asdf/installs/python/3.9.6/bin
+set -x PATH $PATH:$HOME/.pub-cache/bin
+set -x PATH $PATH:/usr/local/bin
+
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+end
+
+#asdf
+source /usr/local/opt/asdf/libexec/asdf.fish
+
