@@ -47,7 +47,7 @@
    - **Existing code review** — find affected areas and impact
    - **Implementation steps** — decide the order of work
    - **Risk check** — list possible problems and fixes
-3. **Taks breakdown** — set detailed tasks
+3. **Taks breakdown** — set detailed tasks using `TodoWrite`
    - Break down tasks into a step-by-step process using the Chain-of-Thought approach.
    - Include verification criteria for each step to ensure accuracy and completeness
 4. **TDD build** — **MUST** write tests → code → refactor (Red → Green → Refactor)
