@@ -1,0 +1,25 @@
+format = """
+$directory$git_branch$git_status$cmd_duration
+$character
+"""
+
+[character]
+success_symbol = "[➜](green)"
+error_symbol = "[✗](red)"
+
+[directory]
+style = "bold blue"
+
+[git_branch]
+symbol = "🌱 "
+style = "yellow"
+
+[cmd_duration]
+min_time = 500
+format = " [took $duration](bold yellow)"
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true

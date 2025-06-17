@@ -1,0 +1,70 @@
+setopt correct share_history inc_append_history
+typeset -U PATH
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Prompt
+eval "$(starship init zsh)"
+
+# Plugin manager
+eval "$(sheldon source)"
+
+# zoxide
+eval "$(zoxide init zsh)"
+alias j='z'
+alias ji='z -i'
+
+# eza, bat, fd, rg
+alias ls='eza --icons'
+alias ll='eza -al --icons --git'
+alias tree='eza --tree --icons -L 2'
+alias cat='bat'
+alias rg='rg --hidden --glob "!.git/*"'
+alias fd='fd --hidden --exclude .git'
+
+# git aliases
+# alias gd='git diff | delta'
+# alias gl='git log --oneline --graph --decorate'
+# alias gs='git status -sb'
+# alias ga='git add .'
+# alias gc='git commit -v'
+# alias gp='git push'
+# alias gco='git checkout'
+
+# PATH settings (from fish config)
+export PATH="$HOME/.pub-cache/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+
+# volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Google Vision API
+export GOOGLE_VISION_API_KEY_PATH="$HOME/.google/kindle-ocr-key.json"
+
+# Google Cloud SDK
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ]; then
+    source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+fi
+
+if [ -f '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc' ]; then
+    source '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc'
+fi
+
+# git worktree function
+gwa() {
+    if [ $# -lt 1 ]; then
+        echo "⚠️ Usage: gwa <work_tree> [<branch>]"
+        return 1
+    fi
+
+    local branch=$1
+    local checkout_target=${2:-$branch}
+    local repo_name=$(basename $(pwd))
+    local worktree_path="../$repo_name-$branch"
+
+    echo "📁 added: $worktree_path → $checkout_target"
+    git worktree add "$worktree_path" "$checkout_target"
+}
+
+alias gwr='git worktree remove .'
