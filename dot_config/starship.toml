@@ -1,23 +1,149 @@
 format = """
-$directory$git_branch$git_status$cmd_duration
-$character
+$custom\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$java\
+$python\
+$nodejs\ 
+\n$character\
 """
 
-[character]
-success_symbol = "[➜](green)"
-error_symbol = "[✗](red)"
+right_format = """
+$cmd_duration
+$time\
+"""
 
+palette = "catppuccin_mocha"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+# ─────────── Custom ─────────
+[custom.venv]
+command = "basename \"$VIRTUAL_ENV\""
+when = "test -n \"$VIRTUAL_ENV\""
+format = """
+[](fg:#cba6f7)\
+[$output]($style)\
+[](fg:#cba6f7)\
+"""
+style = "bold fg:#313244 bg:#cba6f7"
+
+# ─────────── Directory ──────
 [directory]
-style = "bold blue"
+truncation_length = 6
+truncation_symbol = "…/"
+truncate_to_repo = false
+home_symbol = "~"
+read_only = ""
+format = """
+[](fg:#b4befe)\
+[$path]($style)\
+[$read_only]($read_only_style)\
+[](fg:#b4befe)\
+"""
+style = 'bold fg:#313244 bg:#b4befe'
+read_only_style = 'bold fg:#313244 bg:#b4befe'
 
+# ─────────── Git Branch ─────
 [git_branch]
-symbol = "🌱 "
-style = "yellow"
+symbol = ' '
+truncation_length = 4
+truncation_symbol = ''
+style = 'bold fg:#89dceb bg:#45475a'
+format = """
+[](fg:#45475a)\
+[ $symbol$branch(:$remote_branch)]($style)\
+"""
 
+# ─────────── Git Status ─────
+[git_status]
+disabled = false
+style = 'bold fg:#eba0ac bg:#45475a'
+conflicted = '='
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕'
+up_to_date = '✓'
+untracked = '?'
+stashed = '$'
+modified = '!${count}'
+renamed = '»'
+deleted = '✘'
+format = """
+[ ](fg:#89dceb bg:#45475a)\
+[$all_status$ahead_behind]($style)\
+"""
+
+# ─────────── Fill ───────────
+[fill]
+symbol = '─'
+style = 'fg:#89b4fa) bg:none'
+
+# ─────────── Java ───────────
+[java]
+symbol = " "
+style  = "bold fg:#fab387"   # peach
+format = " [$symbol$version]($style)"
+
+# ─────────── Python ─────────
+[python]
+symbol = " "
+style  = "bold fg:#f9e2af"   # yellow
+python_binary = "python3"    # お好みで
+format = " [$symbol$version]($style)"
+
+# ─────────── Node.js ────────
+[nodejs]
+symbol = " "
+style  = "bold fg:#a6e3a1"   # green
+format = " [$symbol$version]($style)"
+
+# ─────────── Character ──────
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✖](bold red)"
+
+# ─────────── Right Format ───
 [cmd_duration]
-min_time = 500
-format = " [took $duration](bold yellow)"
+show_milliseconds = true
+min_time = 100
+format = '[󰞌 $duration  ](fg:#f9e2af)'
 
+[time]
+disabled = false
+time_format = "%Y-%m-%d %H:%M"
+style = "bold sky"
+format = "[$time]($style)"
+
+# ─────────── Disabled ───────
 [aws]
 disabled = true
 
