@@ -1,0 +1,154 @@
+# ~/.local/share/chezmoi/dot_config/fish/config.fish.tmpl
+
+# === Theme settings ===
+set -g theme_display_date yes
+set -g theme_date_format "+%F %H:%M"
+
+{{- if eq .chezmoi.hostname "home" }}
+set -g theme_display_git_default_branch yes
+{{- end }}
+
+# === Interactive session configurations ===
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+    
+    {{- if eq .chezmoi.hostname "work" }}
+    # SDKMAN initialization (work environment)
+    if test -f ~/.sdkman/bin/sdkman-init.fish
+        source ~/.sdkman/bin/sdkman-init.fish
+    end
+    {{- end }}
+end
+
+{{- if eq .chezmoi.hostname "work" }}
+# === Work-specific environment variables ===
+# For SELF_SIGNED_CERT_IN_CHAIN issue (Node.js related)
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+{{- end }}
+
+# === Path configurations ===
+
+{{- if eq .chezmoi.hostname "home" }}
+# Home-specific paths
+fish_add_path $HOME/.pub-cache/bin
+fish_add_path /usr/local/bin
+{{- end }}
+
+# Common paths
+fish_add_path /opt/homebrew/bin
+
+# === Volta (JavaScript Tool Manager) ===
+set -gx VOLTA_HOME $HOME/.volta
+fish_add_path $VOLTA_HOME/bin
+
+{{- if eq .chezmoi.hostname "home" }}
+# === ASDF (Home only) ===
+# source /usr/local/opt/asdf/libexec/asdf.fish
+{{- end }}
+
+# === Peco settings ===
+set fish_plugins theme peco
+
+{{- if eq .chezmoi.hostname "home" }}
+# === Python (pyenv - Home) ===
+set -Ux PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
+status is-interactive; and pyenv init --path | source
+pyenv init - | source
+
+{{- else if eq .chezmoi.hostname "work" }}
+# === Python (system python - Work) ===
+if command -q python3
+    set python3_dir (dirname (which python3))
+    fish_add_path $python3_dir
+    
+    # If pip3 command exists, create an alias for pip
+    if command -q pip3
+        alias pip pip3
+    end
+    
+    # Add alias for python
+    alias python python3
+end
+{{- end }}
+
+{{- if eq .chezmoi.hostname "home" }}
+# === Home-specific configurations ===
+
+# Anki addon development
+if test -d anki-addon-env
+    source '/Users/captain-blue/Library/Application Support/Anki2/addons21/leech_hunter/anki-addon-env/bin/activate.fish'
+end
+
+# Google Cloud SDK
+if test -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+    source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+end
+
+# Google Cloud SDK (alternative path)
+if test -f '/Users/captain-blue/Downloads/google-cloud-sdk/path.fish.inc'
+    source '/Users/captain-blue/Downloads/google-cloud-sdk/path.fish.inc'
+end
+
+# Google Vision API
+set -Ux GOOGLE_VISION_API_KEY_PATH $HOME/.google/kindle-ocr-key.json
+
+{{- else if eq .chezmoi.hostname "work" }}
+# === Work-specific configurations ===
+
+# Sonar scanner settings
+set -x SONAR_HOME /Users/hayato.a.aoki/Devs/tools/sonarqube/sonarqube-25.5.0.107428
+set -x SONAR_SCANNER_HOME /Users/hayato.a.aoki/Devs/tools/sonarqube/sonar-scanner-7.1.0.4889-macosx-aarch64
+
+if test -d $SONAR_HOME/bin
+    fish_add_path $SONAR_HOME/bin
+end
+
+if test -d $SONAR_SCANNER_HOME/bin
+    fish_add_path $SONAR_SCANNER_HOME/bin
+end
+
+# RabbitMQ (rabbitmqctl)
+if test -d /opt/homebrew/opt/rabbitmq/sbin
+    fish_add_path /opt/homebrew/opt/rabbitmq/sbin
+end
+
+# Bun (JavaScript Runtime - commented out)
+# set -gx BUN_INSTALL "$HOME/.bun"
+# fish_add_path $BUN_INSTALL/bin
+{{- end }}
+
+# === User key bindings ===
+function fish_user_key_bindings
+    {{- if eq .chezmoi.hostname "home" }}
+    # Other bindings (e.g., fzf)
+    if functions -q fzf_key_bindings
+        fzf_key_bindings
+    end
+    {{- end }}
+    
+    # Bind Ctrl+W to peco history selection
+    bind \cw peco_select_history
+end
+
+{{- if eq .chezmoi.hostname "home" }}
+# === Git worktree functions (Home only) ===
+function gwa
+    if test (count $argv) -lt 1
+        echo "⚠️ Usage: gwa <work_tree> [<branch>]"
+        return 1
+    end
+    
+    set branch $argv[1]
+    set checkout_target (test (count $argv) -ge 2; and echo $argv[2]; or echo $branch)
+    
+    set repo_name (basename (pwd))
+    set worktree_path ../$repo_name-$branch
+    
+    echo "📁 added: $worktree_path → $checkout_target"
+    git worktree add $worktree_path $checkout_target
+end
+
+# Git worktree aliases
+alias gwr='git worktree remove .'
+{{- end }}
