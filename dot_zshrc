@@ -8,6 +8,10 @@ eval "$(starship init zsh)"
 # Plugin manager
 eval "$(sheldon source)"
 
+# zsh completion system
+autoload -Uz compinit
+compinit
+
 # zoxide
 eval "$(zoxide init zsh)"
 alias j='z'
