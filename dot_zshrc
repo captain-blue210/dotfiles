@@ -12,6 +12,95 @@ eval "$(sheldon source)"
 autoload -Uz compinit
 compinit
 
+# Fish-like completion configuration
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Colorful completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Group completions
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+
+# Show completion menu for 2 or more choices
+zstyle ':completion:*' menu select=2
+
+# Enable partial completion
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# fzf-tab configuration
+zstyle ':fzf-tab:complete:*' fzf-preview 'echo ${(P)realpath}'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:ls:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# Use different colors for different completion types
+zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+
+# Disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+
+# Set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# Switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# Additional zsh completion enhancements
+# Enable substring search for history
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# More completion options
+setopt auto_menu
+setopt complete_in_word
+setopt always_to_end
+setopt list_packed
+setopt auto_param_slash
+setopt mark_dirs
+
+# History options for better completion
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
+
+# Enhanced file completion
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' special-dirs true
+
+# Process completion
+zstyle ':completion:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+# Host completion
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+# Fish-like key bindings
+# Use Ctrl+Space to accept current autosuggestion
+bindkey '^ ' autosuggest-accept
+
+# Use Ctrl+F to accept just one word of autosuggestion
+bindkey '^F' forward-word
+
+# Use Ctrl+E to accept autosuggestion and execute
+bindkey '^E' autosuggest-execute
+
+# Tab and Shift+Tab for completion navigation
+bindkey '^I' expand-or-complete
+bindkey '^[[Z' reverse-menu-complete
+
+# Ctrl+R for reverse search (enhanced by fzf if available)
+bindkey '^R' history-incremental-search-backward
+
+# Fish-like autosuggestion configuration
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#666666'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+
 # zoxide
 eval "$(zoxide init zsh)"
 alias j='z'
