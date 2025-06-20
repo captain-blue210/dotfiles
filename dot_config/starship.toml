@@ -93,7 +93,7 @@ behind = '⇣${count}'
 diverged = '⇕'
 up_to_date = '✓'
 untracked = '?'
-stashed = '$'
+stashed = '󰏗'
 modified = '!${count}'
 renamed = '»'
 deleted = '✘'
@@ -105,7 +105,7 @@ format = """
 # ─────────── Fill ───────────
 [fill]
 symbol = '─'
-style = 'fg:#89b4fa) bg:none'
+style = 'fg:#89b4fa bg:none'
 
 # ─────────── Java ───────────
 [java]

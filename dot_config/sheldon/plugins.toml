@@ -1,5 +1,8 @@
 shell = "zsh"
 
+# [plugins.fzf-tab]
+# github = "Aloxaf/fzf-tab"
+
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
@@ -9,9 +12,6 @@ github = "zsh-users/zsh-syntax-highlighting"
 [plugins.zoxide]
 github = "ajeetdsouza/zoxide"
 hook = "source ~/.zoxide.zsh"
-
-[plugins.fzf-tab]
-github = "Aloxaf/fzf-tab"
 
 [plugins.forgit]
 github = "wfxr/forgit"

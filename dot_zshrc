@@ -6,18 +6,25 @@ export PATH="$HOME/.cargo/bin:$PATH"
 eval "$(starship init zsh)"
 
 # Plugin manager
-eval "$(sheldon source)"
 
 # zsh completion system
 autoload -Uz compinit
 compinit
+
+eval "$(sheldon source)"
+
+# fzf key bindings and completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Fish-like completion configuration
 # Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Colorful completion
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# if command -v gdircolors >/dev/null; then
+#   eval "$(gdircolors -b)"
+# fi
+# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Group completions
 zstyle ':completion:*' group-name ''
@@ -94,7 +101,7 @@ bindkey '^I' expand-or-complete
 bindkey '^[[Z' reverse-menu-complete
 
 # Ctrl+R for reverse search (enhanced by fzf if available)
-bindkey '^R' history-incremental-search-backward
+# bindkey '^R' history-incremental-search-backward
 
 # Fish-like autosuggestion configuration
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#666666'
@@ -161,3 +168,5 @@ gwa() {
 }
 
 alias gwr='git worktree remove .'
+
+# fzf key bindings and completion
