@@ -171,3 +171,9 @@ gwa() {
 alias gwr='git worktree remove .'
 
 # fzf key bindings and completion
+
+{{ if eq .chezmoi.hostname "JP-J3F7YPYPW0" }}
+  source "/Users/hayato.a.aoki/.sdkman/bin/sdkman-init.sh"
+  export JAVA_HOME=/Users/hayato.a.aoki/.sdkman/candidates/java/current/
+{{ else }}
+{{ end }}
