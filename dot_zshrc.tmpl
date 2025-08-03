@@ -102,7 +102,7 @@ bindkey '^I' complete-word
 bindkey '^[[Z' reverse-menu-complete
 
 # Ctrl+R for reverse search (enhanced by fzf if available)
-# bindkey '^R' history-incremental-search-backward
+# bindkey '^W' history-incremental-search-backward
 
 # Fish-like autosuggestion configuration
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#666666'
@@ -140,18 +140,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-# Google Vision API
-export GOOGLE_VISION_API_KEY_PATH="$HOME/.google/kindle-ocr-key.json"
-
-# Google Cloud SDK
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-fi
-
-if [ -f '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc' ]; then
-  source '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc'
-fi
-
 # git worktree function
 gwa() {
   if [ $# -lt 1 ]; then
@@ -170,4 +158,19 @@ gwa() {
 
 alias gwr='git worktree remove .'
 
-# fzf key bindings and completion
+{{ if eq .chezmoi.hostname "netsuper" }}
+source "/Users/hayato.a.aoki/.sdkman/bin/sdkman-init.sh"
+export JAVA_HOME=/Users/hayato.a.aoki/.sdkman/candidates/java/current/
+{{ else }}
+# Google Vision API
+export GOOGLE_VISION_API_KEY_PATH="$HOME/.google/kindle-ocr-key.json"
+
+# Google Cloud SDK
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ]; then
+  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+fi
+
+if [ -f '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc' ]; then
+  source '/Users/captain-blue/Downloads/google-cloud-sdk/path.zsh.inc'
+fi
+{{ end }}
