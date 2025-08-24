@@ -16,4 +16,12 @@ return {
   colors = {
     compose_cursor = "#81D8D0",  -- IMEカーソル色（ティファニーブルー）
   },
+  -- キーバインド設定
+  keys = {
+    {
+      key = "Enter",
+      mods = "SHIFT",
+      action = wezterm.action.SendString("\n"),
+    },
+  },
 }
